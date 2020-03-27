@@ -3,22 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Vue Todo Tutorial</title>
+
+
+
+    <style>
+        .empty {
+            border-color: red;
+        }
+
+        .show {
+            display: none;
+        }
+    </style>
+
 </head>
 <body>
+    <div id="app">
+        <input type="text" 
+                v-model="value" 
+                v-bind:class='{empty: !count}' >
+        <input type="button" value="发送" v-on:click="send">
 
-    <div id="app">{{ message }}</div>   
+        <div v-bind:class='{show: !count}'>
+            input value : {{ value }}   <br>
+            inout length: {{ count }}
+        </div>    
+    </div>   
 
 </body>
 
-    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: function () {
+            return {value: ''}
+        },
 
-    <script>
-        var app = new Vue({
-            el: '#app',
-            data: function () {
-                return {message: 'Hello Vue!'}
+        methods: {
+            send: function() {
+
+                if(count === 0)
+                    alert('please input some text');
+                else
+                {
+                    alert('send:' + this.value);
+                    this.value = '';
+                }
             }
-        })
-    </script>
+        },
+
+        computed: {
+            count: function() {
+                return this.value.length;
+            }
+        }
+    })
+</script>
 </html>
