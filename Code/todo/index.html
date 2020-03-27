@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Vue Todo Tutorial</title>
 
-
-
     <style>
         .empty {
             border-color: red;
         }
-
         .show {
             display: none;
         }
@@ -19,15 +16,15 @@
 </head>
 <body>
     <div id="app">
-        <input type="text" 
-                v-model="value" 
-                v-bind:class='{empty: !count}' >
-        <input type="button" value="发送" v-on:click="send">
-
-        <div v-bind:class='{show: !count}'>
-            input value : {{ value }}   <br>
-            inout length: {{ count }}
-        </div>    
+        <!-- todo list-->
+        <ul>
+            <li v-for='todo in todos' :key='todo.id'>
+                <span> {{ todo.title }}</span>
+                <input type="button" value="标记为完成"> 
+                <input type="button" value="删除">
+                <input type="text" value="编辑">
+            </li>
+        </ul>
     </div>   
 
 </body>
@@ -38,7 +35,13 @@
     var app = new Vue({
         el: '#app',
         data: function () {
-            return {value: ''}
+            return {
+                todos:  [
+                    {id: 0, title: 'todo0'},
+                    {id: 1, title: 'todo111111'},
+                    {id: 2, title: 'todo2222'}
+                ]
+            }
         },
 
         methods: {
