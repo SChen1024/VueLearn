@@ -16,6 +16,19 @@
 </head>
 <body>
     <div id="app">
+
+        <div>
+            <input type="button" value="全部标为完成"/>
+            <input type="text"
+                    v-bind:class='{empty: checkEmpty}'
+                    placeholder="添加 todo"
+                    v-model="newTodoTitle"
+                    @keyup.enter="addTodo"/>
+            <span v-if="checkEmpty" style="color: red">请输入内容！</span>
+     
+          </div>
+
+
         <!-- todo list-->
         <ul>
             <li v-for='todo in todos' :key='todo.id'>
@@ -25,6 +38,18 @@
                 <input type="text" value="编辑">
             </li>
         </ul>
+
+        <div>
+            <span>剩余 3 项未完成 ---</span>
+            <span>筛选：
+              <input type="button" class="selected" value="全部">
+              <input type="button" value="进行中">
+              <input type="button" value="已完成">
+              <input type="button" value="清除已完成">
+              <input type="button" value="清除全部">
+            </span>
+          </div>
+
     </div>   
 
 </body>
@@ -32,35 +57,39 @@
 <!-- 开发环境版本，包含了有帮助的命令行警告 -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
+
+    let todo_id = 0;
+
     var app = new Vue({
         el: '#app',
         data: function () {
             return {
-                todos:  [
-                    {id: 0, title: 'todo0'},
-                    {id: 1, title: 'todo111111'},
-                    {id: 2, title: 'todo2222'}
-                ]
+                todos:  [ ],
+                newTodoTitle: '',
+                EmptyTodo: false
             }
         },
 
         methods: {
-            send: function() {
-
-                if(count === 0)
-                    alert('please input some text');
-                else
+            addTodo: function() {
+                if(this.newTodoTitle.length === 0)
                 {
-                    alert('send:' + this.value);
-                    this.value = '';
+                    this.EmptyTodo = true;
+                    return ;
                 }
+
+                this.todos.push({id:todo_id++, tite: this.newTodoTitle}),
+                this.newTodoTitle = '';
+
+                this.EmptyTodo = false;
             }
         },
 
         computed: {
-            count: function() {
-                return this.value.length;
+            checkEmpty: function() {
+                return this.newTodoTitle.length ===0 && this.EmptyTodo;
             }
+
         }
     })
 </script>
